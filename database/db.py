@@ -13,4 +13,4 @@ mongodb_client = MongoClient((f"mongodb://{DB_URL}/"))
 
 
 # Select database
-db = mongodb_client[str(DATABASE)]
+database = mongodb_client[str(DATABASE)]

@@ -1,3 +1,3 @@
 # List of collections
 
-users: str = "users"
+users_collection: str = "users"
