@@ -1,17 +1,16 @@
 import os
-from pathlib import Path
 from pymongo import MongoClient
 from dotenv import load_dotenv
 
 # Load .env
-dotenv_path = Path('../.env')
-load_dotenv(dotenv_path=dotenv_path)
+load_dotenv()
 
-DATABASE = str(os.getenv('DATABASE'))
-DB_URL = str(os.getenv('DB_URL'))
+DATABASE: str = os.environ.get("DATABASE", "TestingDB")
+DB_URL: str = os.environ.get("DB_URL")
 
 # Mongodb Connection
-mongodb_client = MongoClient("mongodb://localhost:27017/")
+mongodb_client = MongoClient((f"mongodb://{DB_URL}/"))
+
 
 # Select database
-db = mongodb_client["testing"]
+db = mongodb_client[str(DATABASE)]
