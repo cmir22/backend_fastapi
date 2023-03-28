@@ -5,8 +5,3 @@ app = FastAPI()
 
 # Routers
 app.include_router(users.router)
-
-
-@app.get("/")
-async def root():
-    return {"Hola FastAPI!"}
