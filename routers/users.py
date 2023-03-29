@@ -1,8 +1,13 @@
-# Users
-from pydantic import BaseModel
+
+### User  ###
+
 from fastapi import APIRouter, HTTPException, status
 from database.collections import users_collection
 from database.db import database
+from database.models.users_model import User, UserShort
+import jsonschema
+from database.schemas import users_schema
+from helpers.exeptions import msg_exeption
 
 
 # Router
@@ -13,20 +18,14 @@ router = APIRouter(prefix="/users", tags=["users"])
 collection = database[users_collection]
 
 
-class User(BaseModel):
-    name: str
-    password: str
-    is_active: bool = True
-
-
 @router.post("/create")
 async def create_user(user: User):
     try:
-        result = collection.insert_one(user)
-        userss = {"id": str(result.inserted_id)}.update(user)
-        print(userss)
-        # user["_id"] = str(result.inserted_id)
-    except:
+        jsonschema.validate(user, users_schema)
+        user_dict = dict(user)
+        result = collection.insert_one(user_dict)
+        user_dict["_id"] = str(result.inserted_id)
+    except Exception as exs:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
-                            detail="Error to create user")
-    return userss
+                            detail=msg_exeption("Error to create user", exs))
+    return UserShort(**user_dict)
