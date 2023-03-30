@@ -26,6 +26,6 @@ async def create_user(user: User):
         result = collection.insert_one(user_dict)
         user_dict["_id"] = str(result.inserted_id)
     except Exception as exs:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+        raise HTTPException(status_code=status.http,
                             detail=msg_exeption("Error to create user", exs))
     return UserShort(**user_dict)
