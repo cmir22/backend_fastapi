@@ -12,9 +12,6 @@ user_schema = {
         },
         "is_active": {
             "type": "boolean"
-        },
-        "siuuu": {
-            "type": "boolean"
         }
     },
     "required": ["name", "password"]
