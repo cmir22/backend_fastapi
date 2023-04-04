@@ -1,7 +1,7 @@
 
 ### User model ###
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, EmailStr, SecretStr
 # from typing import Optional
 from bson import ObjectId
 from datetime import datetime
@@ -11,9 +11,10 @@ from datetime import datetime
 class User(BaseModel):
     _id: ObjectId = Field(alias='_id')
     name: str
-    password: str
+    email: EmailStr
+    password: SecretStr
     is_active: bool = True
-    join_date = datetime.now().time()
+    join_date = datetime.now().today()
 
 
 # Short vertion

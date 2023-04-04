@@ -8,15 +8,25 @@ user_schema = {
             "type": "string"
         },
         "password": {
-            "type": "string"
+            "type": "string",
+            "format": "password"
         },
         "is_active": {
             "type": "boolean"
         },
         "created_date": {
             "type": "string",
-            "join_date": "date-time"
+            "format": "date-time"
+        },
+        "email": {
+            "type": "string",
+            "format": "email"
         }
     },
-    "required": ["name", "password"]
+    "required": [
+        "name",
+        "password",
+        "email"
+    ]
+
 }
