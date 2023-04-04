@@ -12,6 +12,10 @@ user_schema = {
         },
         "is_active": {
             "type": "boolean"
+        },
+        "created_date": {
+            "type": "string",
+            "join_date": "date-time"
         }
     },
     "required": ["name", "password"]
