@@ -9,7 +9,6 @@ user_schema = {
         },
         "password": {
             "type": "string",
-            "format": "password"
         },
         "is_active": {
             "type": "boolean"
