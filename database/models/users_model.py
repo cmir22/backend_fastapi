@@ -21,9 +21,10 @@ class User(BaseModel):
 class UserShort(BaseModel):
     id: str
     name: str
+    password: str
 
 
 # Short vertion
 class UserLogin(BaseModel):
-    user: str
+    email: EmailStr
     password: str
