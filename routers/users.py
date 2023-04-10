@@ -41,9 +41,9 @@ async def login(user: UserLogin):
         # user_dict = dict(user)
         query = {"email": "Adelaila@gmail.com"}
         document = collection.find_one(query)
+        document["_id"] = str(document["_id"])
         formated = UserLogged(**document)
-        # formated["_id"] = "dawdad"
-        print(formated["_id"])
+        print(document)
     except Exception as exs:
         raise error_insert(exs)
-    return formated
+    return document

@@ -34,6 +34,6 @@ class UserLogin(BaseModel):
 # Short vertion
 class UserLogged(BaseModel):
     _id: str
-    # _id: str
     email: EmailStr
     name: str
+    is_active: bool
