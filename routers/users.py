@@ -4,13 +4,12 @@
 from fastapi import APIRouter
 from database.collections import users_collection
 from database.db import database
-from database.models.users_model import User, UserShort, UserLogin
+from database.models.users_model import User, UserShort, UserLogin, UserLogged
 from database.schemas.users_schema import user_schema
 from helpers.exeptions import error_insert, validate_schema
 from security.jwt_generator import generate_token
 from security.bcrypt_hash import hash_password
-from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse
+
 
 # Router
 router = APIRouter(prefix="/users", tags=["users"])
@@ -38,12 +37,13 @@ async def create_user(user: User):
 
 @router.post("/login")
 async def login(user: UserLogin):
-
     try:
         # user_dict = dict(user)
         query = {"email": "Adelaila@gmail.com"}
         document = collection.find_one(query)
-        return JSONResponse(content=jsonable_encoder(dict(document)), status_code=200)
+        formated = UserLogged(**document)
+        # formated["_id"] = "dawdad"
+        print(formated["_id"])
     except Exception as exs:
         raise error_insert(exs)
-    # return JSONResponse(content=jsonable_encoder(document), status_code=200)
+    return formated

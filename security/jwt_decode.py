@@ -15,7 +15,7 @@ load_dotenv()
 TOKEN_KEY = str(os.environ.get("TOKEN_KEY", "error_token"))
 
 
-async def decode_jwt(request: Request):
+def decode_jwt(request: Request):
     token = request.headers.get('Authorization', '').replace('Bearer ', '')
     try:
         payload = jwt.decode(token, TOKEN_KEY, algorithms=["HS256"])
@@ -23,4 +23,4 @@ async def decode_jwt(request: Request):
         detail_msg = {'detail': "Unauthorized"}
         return JSONResponse(content=detail_msg, status_code=status.HTTP_401_UNAUTHORIZED)
 
-    return await payload
+    return payload
