@@ -4,7 +4,7 @@
 from fastapi import APIRouter
 from database.collections import users_collection
 from database.db import database
-from database.models.users_model import User, UserShort, UserLogin, UserLogged
+from database.models.users_model import User, UserShort, UserLogin, UserLogged, UserDetails
 from database.schemas.users_schema import user_schema
 from helpers.exeptions import error_insert, validate_schema, error_user, error_user_not_found
 from security.jwt_generator import generate_token
@@ -77,9 +77,9 @@ async def login(user: UserLogin):
 @router.delete("/delete/{user_id}")
 async def delete_user(user_id: str):
     response = {}
-    query = {"_id": ObjectId(user_id)}
 
     try:
+        query = {"_id": ObjectId(user_id)}
         response = collection.delete_one(query)
     except Exception as exs:
         raise failed_message(user_id, "Delete user", exs)
@@ -88,3 +88,16 @@ async def delete_user(user_id: str):
         raise success_message()
     else:
         raise not_found_message()
+
+
+@router.get("/details/{user_id}")
+async def get_user_details(user_id: str):
+    result = {}
+
+    try:
+        query = {"_id": ObjectId(user_id)}
+        result = collection.find_one(query)
+        return UserDetails(**result)
+
+    except Exception as exs:
+        raise failed_message(user_id, "User not found", exs)

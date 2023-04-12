@@ -35,3 +35,12 @@ class UserLogged(BaseModel):
     _id: str
     email: EmailStr
     name: str
+
+
+# User details
+class UserDetails(BaseModel):
+    _id: ObjectId
+    email: EmailStr
+    name: str
+    is_active: bool
+    join_date: datetime
