@@ -7,7 +7,7 @@ from security.jwt_valiator import validate_jwt
 
 app = FastAPI()
 
-app.middleware("http")(validate_jwt)
+# app.middleware("http")(validate_jwt)
 
 # Routers
 app.include_router(users.router)

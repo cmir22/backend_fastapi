@@ -14,7 +14,7 @@ load_dotenv()
 TOKEN_KEY = str(os.environ.get("TOKEN_KEY", "error_token"))
 
 EXCLUDE_DOC_ROUTES = ["/docs", "/favicon.ico", "/openapi.json"]
-EXCLUDE_ROUTES = ["/users/login"] + EXCLUDE_DOC_ROUTES
+EXCLUDE_ROUTES = ["/user/login"] + EXCLUDE_DOC_ROUTES
 
 
 async def validate_jwt(request: Request, call_next: any):

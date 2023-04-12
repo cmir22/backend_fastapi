@@ -6,14 +6,15 @@ from database.collections import users_collection
 from database.db import database
 from database.models.users_model import User, UserShort, UserLogin, UserLogged
 from database.schemas.users_schema import user_schema
-from helpers.exeptions import error_insert, validate_schema
+from helpers.exeptions import error_insert, validate_schema, error_user, error_user_not_found
 from security.jwt_generator import generate_token
 from security.bcrypt_hash import hash_password
 from security.bcrypt_validate import validate_hash
+from helpers.responses import failed_message
 
 
 # Router
-router = APIRouter(prefix="/users", tags=["users"])
+router = APIRouter(prefix="/user", tags=["user"])
 
 # Collection
 collection = database[users_collection]
@@ -39,20 +40,44 @@ async def create_user(user: User):
 @router.post("/login")
 async def login(user: UserLogin):
     response = {}
+    is_valid = True
+    user_not_found = False
+
     try:
         query = {"email": user.email}
         document = collection.find_one(query)
+
+        if not document:
+            user_not_found = True
+            raise error_user()
+
         is_auth_valid = validate_hash(user.password, document["password"])
 
         # Validate authentication
         if is_auth_valid:
             response = UserLogged(**document)
-            print('is valid')
         else:
-            response = {
-                "msg": "user not valid"
-            }
+            is_valid = False
+            raise error_user()
 
     except Exception as exs:
-        raise error_insert(exs)
+        if is_valid == False:
+            raise error_user()
+        elif user_not_found:
+            raise error_user_not_found()
+        else:
+            raise error_insert(exs)
+
     return response
+
+
+@router.delete("/delete/{_id}")
+async def delete_user(_id: str):
+    print("hello")
+    raise failed_message(_id, "Delete user")
+    # response = collection.delete_one({"_id": id})
+
+    # if response.deleted_count == 1:
+    #     return {"message": "Document deleted successfully"}
+    # else:
+    #     return {"message": "Document not found"}

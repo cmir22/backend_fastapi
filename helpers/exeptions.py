@@ -29,6 +29,14 @@ def error_insert(exs: Exception):
     return HTTPException(status_code=status.HTTP_409_CONFLICT,
                          detail=format_msg_exeption("Error on insert", exs))
 
+
+def error_user():
+    return HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Error on credentials")
+
+
+def error_user_not_found():
+    return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+
 ########## Format mesage ##########
 
 
