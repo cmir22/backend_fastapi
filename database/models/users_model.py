@@ -26,7 +26,6 @@ class UserShort(BaseModel):
 
 # Short vertion
 class UserLogin(BaseModel):
-    _id: ObjectId = Field(alias='_id')
     email: EmailStr
     password: str
 

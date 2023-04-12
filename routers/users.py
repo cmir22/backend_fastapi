@@ -9,6 +9,7 @@ from database.schemas.users_schema import user_schema
 from helpers.exeptions import error_insert, validate_schema
 from security.jwt_generator import generate_token
 from security.bcrypt_hash import hash_password
+from security.bcrypt_validate import validate_hash
 
 
 # Router
@@ -37,13 +38,21 @@ async def create_user(user: User):
 
 @router.post("/login")
 async def login(user: UserLogin):
+    response = {}
     try:
-        # user_dict = dict(user)
-        query = {"email": "Adelaila@gmail.com"}
+        query = {"email": user.email}
         document = collection.find_one(query)
-        document["_id"] = str(document["_id"])
-        formated = UserLogged(**document)
-        print(document)
+        is_auth_valid = validate_hash(user.password, document["password"])
+
+        # Validate authentication
+        if is_auth_valid:
+            response = UserLogged(**document)
+            print('is valid')
+        else:
+            response = {
+                "msg": "user not valid"
+            }
+
     except Exception as exs:
         raise error_insert(exs)
-    return document
+    return response
