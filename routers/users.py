@@ -10,11 +10,12 @@ from helpers.exeptions import error_insert, validate_schema, error_user, error_u
 from security.jwt_generator import generate_token
 from security.bcrypt_hash import hash_password
 from security.bcrypt_validate import validate_hash
-from helpers.responses import failed_message
+from helpers.responses import success_message, not_found_message, failed_message
+from bson.objectid import ObjectId
 
 
 # Router
-router = APIRouter(prefix="/user", tags=["user"])
+router = APIRouter(prefix="/users", tags=["users"])
 
 # Collection
 collection = database[users_collection]
@@ -55,7 +56,9 @@ async def login(user: UserLogin):
 
         # Validate authentication
         if is_auth_valid:
-            response = UserLogged(**document)
+            response = dict(UserLogged(**document))
+            response["_id"] = str(document["_id"])
+            response = generate_token(response)
         else:
             is_valid = False
             raise error_user()
@@ -71,13 +74,17 @@ async def login(user: UserLogin):
     return response
 
 
-@router.delete("/delete/{_id}")
-async def delete_user(_id: str):
-    print("hello")
-    raise failed_message(_id, "Delete user")
-    # response = collection.delete_one({"_id": id})
+@router.delete("/delete/{user_id}")
+async def delete_user(user_id: str):
+    response = {}
+    query = {"_id": ObjectId(user_id)}
 
-    # if response.deleted_count == 1:
-    #     return {"message": "Document deleted successfully"}
-    # else:
-    #     return {"message": "Document not found"}
+    try:
+        response = collection.delete_one(query)
+    except Exception as exs:
+        raise failed_message(user_id, "Delete user", exs)
+
+    if response.deleted_count == 1:
+        raise success_message()
+    else:
+        raise not_found_message()

@@ -4,34 +4,46 @@
 from fastapi import HTTPException, status
 from database.db import database
 from database.collections import exeption_collection
+from database.models.response_model import ResponseModel
 
 
 def success_message():
     response = {
-        "msg": "success",
+        "message": "success",
         "is_success": True
     }
 
-    return HTTPException(status_code=status.HTTP_201_CREATED, detail=response)
+    return HTTPException(status_code=status.HTTP_200_OK, detail=response)
 
 
-def failed_message(_id: str, endpoint: str):
+def not_found_message():
+    response = {
+        "message": "record not found",
+        "is_success": False,
+    }
+
+    return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=response)
+
+
+def failed_message(_id: str, endpoint: str, exeption: Exception):
     # Collection
     collection = database[exeption_collection]
+    query = set_detail(_id, endpoint, exeption)
+    collection.insert_one(dict(query))
+    detail = {"error": True, "action": endpoint}
+    headers = {"X-Error": "Error on: " + endpoint}
 
-    response = msg(_id, endpoint)
-    collection.insert_one(response)
+    return HTTPException(status_code=status.HTTP_409_CONFLICT,
+                         detail=detail,
+                         headers=headers)
 
-    return HTTPException(status_code=status.HTTP_409_CONFLICT, detail=response)
 
+def set_detail(_id: str, endpoint: str, exeption):
+    detail: dict = {
+        "message": "Error to insert",
+        "user_id": _id,
+        "endpoint": endpoint,
+        "exeption": str(exeption)
+    }
 
-def msg(_id: str, endpoint: str):
-    response: dict = (
-        {
-            "msg": "Error to insert",
-            "is_success": False,
-            "user_id": _id,
-            "endpoint": endpoint
-        }
-    )
-    return response
+    return ResponseModel(**detail)

@@ -35,4 +35,3 @@ class UserLogged(BaseModel):
     _id: str
     email: EmailStr
     name: str
-    is_active: bool
