@@ -15,7 +15,7 @@ from bson.objectid import ObjectId
 
 
 # Router
-router = APIRouter(prefix="/users", tags=["users"])
+router = APIRouter(prefix="/user", tags=["User"])
 
 # Collection
 collection = database[users_collection]

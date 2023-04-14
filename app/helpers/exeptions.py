@@ -31,7 +31,11 @@ def error_insert(exs: Exception):
 
 
 def error_user():
-    return HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Error on credentials")
+    details = {
+        "error": True,
+        "message": "Error on credentials"
+    }
+    return HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=details)
 
 
 def error_user_not_found():
