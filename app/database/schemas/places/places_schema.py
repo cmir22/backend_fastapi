@@ -14,12 +14,6 @@ place_schema = {
             "type": "string",
             "format": "email"
         },
-        "city": {
-            "type": "string",
-        },
-        "state": {
-            "type": "string",
-        },
         "web_site": {
             "type": "string",
         },

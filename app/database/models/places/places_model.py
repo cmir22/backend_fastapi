@@ -13,8 +13,6 @@ class Place(BaseModel):
     name: str
     phone: str
     email: EmailStr
-    city: str
-    state: str
     web_site: str
     image: str
     is_active: bool = True
