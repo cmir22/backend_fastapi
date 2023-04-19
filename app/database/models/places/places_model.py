@@ -17,3 +17,12 @@ class Place(BaseModel):
     image: str
     is_active: bool = True
     last_edit_date = datetime.now().today()
+
+
+class UpdatePlace(BaseModel):
+    name: str
+    phone: str
+    email: EmailStr
+    web_site: str
+    image: str
+    last_edit_date = datetime.now().today()
