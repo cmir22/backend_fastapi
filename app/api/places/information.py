@@ -2,21 +2,24 @@
 ### Place Information  ###
 
 from fastapi import APIRouter
-from database.collections import admins_collection
+from database.collections import places_info_collection
 from database.db import database
-from helpers.exeptions import validate_schema
+from helpers.exeptions import error_insert, validate_schema
 from database.models.places.places_model import Place
 from database.schemas.places.places_schema import place_schema
 # Router
 router = APIRouter(prefix="/places/information", tags=["Places"])
 
 # Collection
-collection = database[admins_collection]
+info_collection = database[places_info_collection]
 
 
 @router.post("/create")
 async def create_place_info(place: Place):
     validate_schema(place, place_schema)
-
-    print(place)
+    try:
+        place_dict = dict(place)
+        result = info_collection.insert_one(place_dict)
+    except Exception as exs:
+        raise error_insert(exs)
     return {}

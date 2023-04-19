@@ -30,7 +30,6 @@ place_schema = {
             "type": "boolean"
         },
         "last_edit_date": {
-            # "type": "string",
             "format": "date-time"
         },
     },
