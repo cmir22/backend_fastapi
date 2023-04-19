@@ -11,7 +11,11 @@ from datetime import datetime
 class Place(BaseModel):
     _id: ObjectId = Field(alias='_id')
     name: str
+    phone: str
     email: EmailStr
-    password: str
+    city: str
+    state: str
+    web_site: str
+    image: str
     is_active: bool = True
-    join_date = datetime.now().today()
+    last_edit_date = datetime.now().today()

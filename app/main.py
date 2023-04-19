@@ -4,6 +4,7 @@
 from fastapi import FastAPI
 from api.users import users
 from api.admin import admins
+from api.places import information
 # from security.jwt_valiator import valikdate_jwt
 
 app = FastAPI()
@@ -13,3 +14,4 @@ app = FastAPI()
 # Routers
 app.include_router(users.router)
 app.include_router(admins.router)
+app.include_router(information.router)
