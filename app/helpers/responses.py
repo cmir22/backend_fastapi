@@ -7,13 +7,25 @@ from database.collections import exeption_collection
 from database.models.response_model import ResponseModel
 
 
-def success_message():
+def success_message(_id=None):
     response = {
         "message": "success",
-        "is_success": True
+        "is_success": True,
+        "_id": str(_id)
     }
 
     return HTTPException(status_code=status.HTTP_200_OK, detail=response)
+
+
+def format_respose(data):
+    response = {
+        "message": "success",
+        "loaded": True,
+        "is_success": True,
+        "data": data
+    }
+
+    return response
 
 
 def not_found_message():
