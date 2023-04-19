@@ -5,8 +5,7 @@ from fastapi import APIRouter
 from database.collections import admins_collection
 from database.db import database
 from database.models.users_model import User, UserShort, UserLogin, UserLogged
-from database.schemas.users_schema import user_schema
-from helpers.exeptions import error_insert, validate_schema, error_user, error_user_not_found
+from helpers.exeptions import error_insert, error_user, error_user_not_found
 from security.jwt_generator import generate_token
 from security.bcrypt_hash import hash_password
 from security.bcrypt_validate import validate_hash
@@ -22,7 +21,6 @@ collection = database[admins_collection]
 
 @router.post("/create")
 async def create_user(admin: User):
-    validate_schema(admin, user_schema)
     try:
         user_dict = dict(admin)
         hashed_password = hash_password(admin.password)

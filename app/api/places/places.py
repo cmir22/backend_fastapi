@@ -4,9 +4,8 @@
 from fastapi import APIRouter
 from database.collections import places_collection
 from database.db import database
-from helpers.exeptions import error_insert, validate_schema
+from helpers.exeptions import error_insert
 from database.models.places.places_model import Place, UpdatePlace
-from database.schemas.places.places_schema import place_schema
 from helpers.responses import success_message, not_found_message, format_respose
 from bson.objectid import ObjectId
 
@@ -19,8 +18,6 @@ places_collection = database[places_collection]
 
 @router.post("/create")
 async def create_place_info(place: Place):
-    validate_schema(place, place_schema)
-
     try:
         place_dict = dict(place)
         document = places_collection.insert_one(place_dict)
