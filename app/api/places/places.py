@@ -17,7 +17,7 @@ places_collection = database[places_collection]
 
 
 @router.post("/create")
-async def create_place_info(place: Place):
+async def create_place(place: Place):
     try:
         place_dict = dict(place)
         document = places_collection.insert_one(place_dict)
@@ -28,7 +28,7 @@ async def create_place_info(place: Place):
 
 
 @router.get("/{_id}")
-async def get_place_info(_id: str):
+async def get_place(_id: str):
     document: Place = {}
 
     try:
@@ -42,7 +42,7 @@ async def get_place_info(_id: str):
     return document
 
 
-@router.delete("delete/{_id}")
+@router.delete("/delete/{_id}")
 async def delete_place(_id: str):
     document = {}
 

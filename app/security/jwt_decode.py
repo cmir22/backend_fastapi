@@ -24,3 +24,13 @@ def decode_jwt(request: Request):
         return JSONResponse(content=detail_msg, status_code=status.HTTP_401_UNAUTHORIZED)
 
     return payload
+
+
+def decode_token(token: str):
+    try:
+        payload = jwt.decode(token, TOKEN_KEY, algorithms=["HS256"])
+    except:
+        detail_msg = {'detail': "Unauthorized"}
+        return JSONResponse(content=detail_msg, status_code=status.HTTP_401_UNAUTHORIZED)
+
+    return payload
