@@ -18,16 +18,18 @@ places_schedule_collection = database[places_schedule_collection]
 
 @router.post("/create")
 async def create_place_info(schedule: PlaceSchedule, Authorization: str = Header(None)):
-    days = [0, 2, 3, 4, 5, 6, 7, 8]
+    days = ["0", "2", "3", "4", "5", "6", "7", "8"]
     try:
         id_place = decode_token(Authorization)["id_place"]
         schedule_dict = dict(schedule)["days"]
-        schedule_list = []
+        new_list = []
 
         for sch in schedule_dict:
-            schedule_list[str(sch["day_number"])] = sch
+            sch = dict(sch)
+            new_dict = {"day": sch["day_number"]}
+            new_list.append(new_dict)
 
-        # print(sche)
+        print(new_list)
 
         # document = places_schedule_collection.insert_many(schedule_dict)
     except Exception as exs:
