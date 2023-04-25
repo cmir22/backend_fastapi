@@ -2,7 +2,7 @@
 ### Places schedule model ###
 
 from pydantic import BaseModel
-from datetime import datetime, time
+from datetime import datetime
 
 
 class Schedule(BaseModel):
