@@ -39,10 +39,10 @@ async def create_place_info(schedule: PlaceSchedule, Authorization: str = Header
 
     except Exception as exs:
         raise error_insert(exs)
-    return success_message(document.inserted_id)
+    return success_message(document)
 
 
 def convert_hours(my_time: str):
-    time_format = "%I:%M %p"
-    formated = datetime.strptime(my_time, time_format).time()
+    time_format = "%H:%M %p"
+    formated = datetime.strptime(my_time, time_format)
     return formated

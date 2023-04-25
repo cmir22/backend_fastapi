@@ -14,8 +14,8 @@ class Schedule(BaseModel):
 class ScheduleDay(BaseModel):
     id_place: str
     day_number: int
-    open_time: time
-    close_time: time
+    open_time: datetime
+    close_time: datetime
 
 
 class PlaceSchedule(BaseModel):
