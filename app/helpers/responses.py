@@ -4,7 +4,7 @@
 from fastapi import HTTPException, status
 from database.db import database
 from database.collections import exeption_collection
-from database.models.response_model import ResponseModel
+from database.models.response_model import ResponseModel, FormatResponseModel
 
 
 def success_message(_id=None):
@@ -22,10 +22,10 @@ def format_respose(data):
         "message": "success",
         "loaded": True,
         "is_success": True,
-        "data": data
+        "data": list(data)
     }
 
-    return response
+    return FormatResponseModel(**response)
 
 
 def not_found_message():

@@ -13,3 +13,12 @@ class ResponseModel(BaseModel):
     is_success = False
     created_at = datetime.now().today()
     exeption: str
+
+# Long vertion
+
+
+class FormatResponseModel(BaseModel):
+    message: str
+    loaded: bool
+    is_success: bool
+    data: list

@@ -78,7 +78,7 @@ async def get_place_schedule(id_place: str):
         query = {"id_place": id_place}
         document = places_schedule_collection.find(query, select)
         document = document.sort("day_number", pymongo.ASCENDING)
-        response = format_respose(list(document))
+        response = format_respose(document)
 
     except Exception as exs:
         raise error_insert(exs)

@@ -19,6 +19,7 @@ class ScheduleDay(BaseModel):
     is_open: bool
     open_time: Optional[datetime] = None
     close_time: Optional[datetime] = None
+    today_open: Optional[bool] = None
 
 
 class PlaceSchedule(BaseModel):

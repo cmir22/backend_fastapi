@@ -4,11 +4,14 @@
 from fastapi import FastAPI
 from api.users import users
 from api.admin import admins
-from api.places import places, schedule
+from api.admin.places import places, schedule
 # from security.jwt_valiator import validate_jwt
 
+
+# App
 app = FastAPI()
 
+# Security
 # app.middleware("http")(validate_jwt)
 
 # Routers

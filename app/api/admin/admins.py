@@ -1,10 +1,11 @@
 
 ### Admin  ###
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Header
+from helpers.responses import success_message, format_respose
 from database.collections import admins_collection, places_collection
 from database.db import database
-from database.models.admin.admins_model import Admin, UserShort, AdminLogin, AdminLogged
+from database.models.admin.admins_model import Admin, UserShort, AdminLogin, AdminLogged, SelectAdminDetails
 from database.models.places.places_model import Place
 from helpers.exeptions import error_insert, error_user, error_user_not_found
 from security.jwt_generator import generate_token
@@ -12,6 +13,7 @@ from security.bcrypt_hash import hash_password
 from security.bcrypt_validate import validate_hash
 from helpers.responses import success_message, not_found_message, failed_message
 from bson.objectid import ObjectId
+from security.headers import header_id_place
 
 # Router
 router = APIRouter(prefix="/admin", tags=["Admin"])
@@ -23,10 +25,10 @@ places_collection = database[places_collection]
 
 @router.post("/create")
 async def create_admin(admin: Admin):
-    try:
-        # Declare variables
-        user_dict = dict(admin)
+    # Declare variables
+    user_dict = dict(admin)
 
+    try:
         # Hash password
         hashed_password = hash_password(admin.password)
         user_dict["password"] = hashed_password
@@ -116,15 +118,18 @@ async def delete_user(admin_id: str):
         raise not_found_message()
 
 
-@router.get("/details/{admin_id}")
-async def get_user_details(admin_id: str):
-    result = {}
+@router.get("/details")
+async def get_user_details(Authorization=Header(None)):
+    response = {}
 
-    return result
-    # try:
-    #     query = {"_id": ObjectId(user_id)}
-    #     result = collection.find_one(query)
-    #     return UserDetails(**result)
+    try:
+        id_admin = header_id_place(Authorization, "_id")
+        select = dict(SelectAdminDetails())
+        query = {"_id": ObjectId(id_admin)}
+        document = admins_collection.find_one(query, select)
+        document.pop("_id")
+        response = format_respose([document])
 
-    # except Exception as exs:
-    #     raise failed_message(user_id, "User not found", exs)
+    except Exception as exs:
+        raise error_insert(exs)
+    return response

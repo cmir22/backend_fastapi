@@ -2,7 +2,6 @@
 ### User model ###
 
 from pydantic import BaseModel, Field, EmailStr
-# from typing import Optional
 from bson import ObjectId
 from datetime import datetime
 
@@ -39,6 +38,15 @@ class AdminLogged(BaseModel):
     email: EmailStr
     name: str
     phone: str
+
+
+# Short vertion
+class SelectAdminDetails(BaseModel):
+    _id = Field(alias='_id', default=False)
+    id_place = False
+    join_date = False
+    password = False
+    is_active = False
 
 
 # Admin details
