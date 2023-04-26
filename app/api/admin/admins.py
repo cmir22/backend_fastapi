@@ -142,10 +142,10 @@ async def update_user_details(details: UpdateAdminDetails, Authorization=Header(
     response = {}
 
     try:
-        where = {"_id": ObjectId(header_id_place(Authorization, "_id"))}
-        update = {"$set": dict(details)}
+        WHERE = {"_id": ObjectId(header_id_place(Authorization, "_id"))}
+        UPDATE = {"$set": dict(details)}
 
-        admins_collection.find_one_and_update(where, update)
+        admins_collection.find_one_and_update(WHERE, UPDATE)
         response = format_respose()
 
     except Exception as exs:

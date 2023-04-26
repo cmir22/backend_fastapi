@@ -8,7 +8,6 @@ from helpers.exeptions import error_insert
 from helpers.responses import success_message, format_respose
 from database.models.admin.locations.locations_model import Location
 from security.headers import header_id_place
-# from bson.objectid import ObjectId
 
 # Router
 router = APIRouter(prefix="/locations", tags=["Locations"])
@@ -43,6 +42,22 @@ async def get_place_location(Authorization=Header(None)):
         document = LOCATIONS_COLLECTION.find_one(WHERE, SELECT)
 
         response = format_respose([dict(document)])
+
+    except Exception as exs:
+        raise error_insert(exs)
+    return response
+
+
+@router.put("/update")
+async def get_place_location(location: Location, Authorization=Header(None)):
+    response = {}
+
+    try:
+        WHERE = {"id_place": header_id_place(Authorization, "id_place")}
+        UPDATE = {"$set": dict(location)}
+
+        LOCATIONS_COLLECTION.find_one_and_update(WHERE, UPDATE)
+        response = success_message(WHERE["id_place"])
 
     except Exception as exs:
         raise error_insert(exs)
