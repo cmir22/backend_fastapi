@@ -3,19 +3,22 @@
 
 from pydantic import BaseModel
 from datetime import datetime
+from typing import Optional
 
 
 class Schedule(BaseModel):
     day_number: int
-    open_time: str
-    close_time: str
+    is_open: bool
+    open_time: Optional[str] = None
+    close_time: Optional[str] = None
 
 
 class ScheduleDay(BaseModel):
     id_place: str
     day_number: int
-    open_time: datetime
-    close_time: datetime
+    is_open: bool
+    open_time: Optional[datetime] = None
+    close_time: Optional[datetime] = None
 
 
 class PlaceSchedule(BaseModel):
