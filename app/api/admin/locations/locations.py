@@ -37,13 +37,12 @@ async def get_place_location(Authorization=Header(None)):
     response = {}
 
     try:
-        SELECT = {"_id": False}
+        SELECT = {"_id": False, "last_update": False, "id_place": False}
         WHERE = {"id_place": header_id_place(Authorization, "id_place")}
 
-        document = LOCATIONS_COLLECTION.find(WHERE, SELECT)
-        document = dict(document[0])
+        document = LOCATIONS_COLLECTION.find_one(WHERE, SELECT)
 
-        response = format_respose([document])
+        response = format_respose([dict(document)])
 
     except Exception as exs:
         raise error_insert(exs)
