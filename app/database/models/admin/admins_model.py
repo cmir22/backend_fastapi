@@ -18,7 +18,7 @@ class Admin(BaseModel):
 
 
 # Short vertion
-class UserShort(BaseModel):
+class AdminShort(BaseModel):
     id: str
     id_place: str
     name: str
@@ -40,15 +40,6 @@ class AdminLogged(BaseModel):
     phone: str
 
 
-# Short vertion
-class SelectAdminDetails(BaseModel):
-    _id = Field(alias='_id', default=False)
-    id_place = False
-    join_date = False
-    password = False
-    is_active = False
-
-
 # Admin details
 class AdminDetails(BaseModel):
     _id: ObjectId
@@ -57,3 +48,20 @@ class AdminDetails(BaseModel):
     name: str
     is_active: bool
     join_date: datetime
+
+
+# Set select
+class SelectAdminDetails(BaseModel):
+    _id = Field(alias='_id', default=False)
+    id_place = False
+    join_date = False
+    password = False
+    is_active = False
+
+
+# Update admin details
+class UpdateAdminDetails(BaseModel):
+    _id: ObjectId = Field(alias='_id')
+    email: EmailStr
+    name: str
+    phone: str

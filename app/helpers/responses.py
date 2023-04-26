@@ -17,7 +17,7 @@ def success_message(_id=None):
     return HTTPException(status_code=status.HTTP_200_OK, detail=response)
 
 
-def format_respose(data):
+def format_respose(data={}):
     response = {
         "message": "success",
         "loaded": True,

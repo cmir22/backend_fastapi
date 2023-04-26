@@ -5,7 +5,7 @@ from fastapi import APIRouter, Header
 from helpers.responses import success_message, format_respose
 from database.collections import admins_collection, places_collection
 from database.db import database
-from database.models.admin.admins_model import Admin, UserShort, AdminLogin, AdminLogged, SelectAdminDetails
+from database.models.admin.admins_model import Admin, AdminShort, AdminLogin, AdminLogged, SelectAdminDetails, UpdateAdminDetails
 from database.models.places.places_model import Place
 from helpers.exeptions import error_insert, error_user, error_user_not_found
 from security.jwt_generator import generate_token
@@ -42,7 +42,7 @@ async def create_admin(admin: Admin):
         user_dict["id"] = str(result.inserted_id)
 
         # Generate token
-        token = generate_token(UserShort(**user_dict))
+        token = generate_token(AdminShort(**user_dict))
 
     except Exception as exs:
         raise error_insert(exs)
@@ -125,10 +125,27 @@ async def get_user_details(Authorization=Header(None)):
     try:
         id_admin = header_id_place(Authorization, "_id")
         select = dict(SelectAdminDetails())
-        query = {"_id": ObjectId(id_admin)}
-        document = admins_collection.find_one(query, select)
+        where = {"_id": ObjectId(id_admin)}
+
+        document = admins_collection.find_one(where, select)
         document.pop("_id")
         response = format_respose([document])
+
+    except Exception as exs:
+        raise error_insert(exs)
+    return response
+
+
+@router.put("/details/update")
+async def update_user_details(details: UpdateAdminDetails, Authorization=Header(None)):
+    response = {}
+
+    try:
+        where = {"_id": ObjectId(header_id_place(Authorization, "_id"))}
+        update = {"$set": dict(details)}
+
+        admins_collection.find_one_and_update(where, update)
+        response = format_respose()
 
     except Exception as exs:
         raise error_insert(exs)
