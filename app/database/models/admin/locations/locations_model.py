@@ -16,3 +16,9 @@ class Location(BaseModel):
     lat: str
     lng: str
     last_update = datetime.now().today()
+
+
+class LocationSelect(BaseModel):
+    # _id = False
+    last_update = False
+    id_place = False

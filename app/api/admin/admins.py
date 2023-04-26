@@ -124,11 +124,12 @@ async def get_user_details(Authorization=Header(None)):
 
     try:
         id_admin = header_id_place(Authorization, "_id")
-        select = dict(SelectAdminDetails())
-        where = {"_id": ObjectId(id_admin)}
+        SELECT = dict(SelectAdminDetails())
+        WHERE = {"_id": ObjectId(id_admin)}
 
-        document = admins_collection.find_one(where, select)
+        document = admins_collection.find_one(WHERE, SELECT)
         document.pop("_id")
+
         response = format_respose([document])
 
     except Exception as exs:

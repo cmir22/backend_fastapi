@@ -18,7 +18,6 @@ class ResponseModel(BaseModel):
 
 
 class FormatResponseModel(BaseModel):
-    message: str
     loaded: bool
     is_success: bool
     data: list
