@@ -9,17 +9,16 @@ from database.models.response_model import ResponseModel, FormatResponseModel
 
 def success_message(_id=None):
     response = {
-        "message": "success",
+        "loaded": True,
         "is_success": True,
         "_id": str(_id)
     }
 
-    return HTTPException(status_code=status.HTTP_200_OK, detail=response)
+    return response
 
 
 def format_respose(data={}):
     response = {
-        "message": "success",
         "loaded": True,
         "is_success": True,
         "data": list(data)
