@@ -18,6 +18,7 @@ def success_message(_id=None):
 
 
 def format_respose(data={}):
+
     response = {
         "loaded": True,
         "is_success": True,

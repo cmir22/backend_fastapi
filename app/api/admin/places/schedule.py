@@ -74,9 +74,9 @@ async def get_place_schedule(id_place: str):
     response = {}
 
     try:
-        select = {"_id": False}
-        query = {"id_place": id_place}
-        document = places_schedule_collection.find(query, select)
+        SELECT = {"_id": False}
+        WHERE = {"id_place": id_place}
+        document = places_schedule_collection.find(WHERE, SELECT)
         document = document.sort("day_number", pymongo.ASCENDING)
         response = format_respose(document)
 
