@@ -1,36 +1,35 @@
 
-### Categories ###
+### Products ###
 
 from fastapi import APIRouter, Header
-import pymongo
-from database.collections import categories_collection
+from database.collections import products_collection
 from database.db import database
 from helpers.exeptions import error_insert
-from database.models.admin.products.category_model import Category, SelectCategory, UpdateCategory
+from database.models.admin.products.category_model import Category
 from security.headers import header_id_place
-from helpers.responses import success_message, format_respose
+from helpers.responses import success_message
 from bson.objectid import ObjectId
 
 # Router
-router = APIRouter(prefix="/products/categories", tags=["Categories"])
+router = APIRouter(prefix="/products", tags=["Products"])
 
 # Collection
-CATEGORIES_COLLECTION = database[categories_collection]
+PRODUCTS_COLLECTION = database[products_collection]
 
 
 @router.post("/create")
-async def create_category(category: Category, Authorization=Header(None)):
+async def create_product(product: Category, Authorization=Header(None)):
     response = {}
-    category = dict(category)
+    product = dict(product)
 
     try:
-        category["id_place"] = header_id_place(Authorization)
-        document = CATEGORIES_COLLECTION.insert_one(category)
+        product["id_place"] = header_id_place(Authorization)
+        document = PRODUCTS_COLLECTION.insert_one(product)
 
         UPDATE = {"$set": {"id_category": str(document.inserted_id)}}
         WHERE = {"_id": ObjectId(document.inserted_id)}
 
-        CATEGORIES_COLLECTION.update_one(WHERE, UPDATE)
+        PRODUCTS_COLLECTION.update_one(WHERE, UPDATE)
 
         response = success_message(document.inserted_id)
 
