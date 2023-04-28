@@ -7,7 +7,7 @@ from api.admin import admins
 from api.admin.places import places, schedule
 from api.admin.locations import locations
 from api.admin.locations import locations
-from api.admin.proucts import categories
+from api.admin.proucts import categories, products
 # from security.jwt_valiator import validate_jwt
 
 
@@ -24,3 +24,4 @@ app.include_router(places.router)
 app.include_router(schedule.router)
 app.include_router(locations.router)
 app.include_router(categories.router)
+app.include_router(products.router)

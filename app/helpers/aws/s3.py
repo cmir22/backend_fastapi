@@ -1,33 +1,34 @@
 
 ### Upload to s3 ###
 
-import base64
 import boto3
 from dotenv import load_dotenv
 import os
+import base64
+from helpers.aws.buckets import COFFFEE_FINDER_BUCKET
 
 # Load .env
 load_dotenv()
 
 # Load env variables
-AWS_KEY = str(os.environ.get("AWS_KEY", "error_key"))
-AWS_ACCESS_KEY = str(os.environ.get("AWS_ACCESS_KEY", "error_key"))
+ACCESS_KEY = os.getenv('AWS_ACCESS_KEY')
+SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 
 
-async def upload_image_s3(image_base64: str):
-    image_data = base64.b64decode(image_base64)
+def upload_image_s3(image_base64: str):
 
-    S3 = boto3.client('s3',
-                      aws_access_key_id=AWS_KEY,
-                      aws_secret_access_key=AWS_ACCESS_KEY
-                      )
+    try:
 
-    BUCKET_NAME = 'your-bucket-name'
-    FILE_NAME = 'your-image-file-name.jpg'
+        S3_CLIENT = boto3.client('s3',
+                                 aws_access_key_id=ACCESS_KEY,
+                                 aws_secret_access_key=SECRET_ACCESS_KEY)
 
-    UPLOAD = S3.put_object(
-        Body=image_data,
-        Bucket=BUCKET_NAME,
-        Key=FILE_NAME)
+        # Decode the base64 image
+        IMAGE_DATA = base64.b64decode(image_base64)
 
-    print(UPLOAD)
+        S3_CLIENT.put_object(Body=IMAGE_DATA,
+                             Bucket=COFFFEE_FINDER_BUCKET,
+                             Key="SIUUU.jpeg")
+
+    except Exception as exs:
+        print(exs)
