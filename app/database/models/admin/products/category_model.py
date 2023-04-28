@@ -16,8 +16,15 @@ class Category(BaseModel):
     created_date = datetime.now().today()
 
 
-# Long vertion
+# Select vertion
 class SelectCategory(BaseModel):
     is_active = False
     last_update = False
     created_date = False
+    id_place = False
+
+
+# Update vertion
+class UpdateCategory(BaseModel):
+    name: str
+    description: str
