@@ -1,5 +1,5 @@
 
-### Places schedule model ###
+### Business schedule model ###
 
 from pydantic import BaseModel
 from datetime import datetime
@@ -14,7 +14,7 @@ class Schedule(BaseModel):
 
 
 class ScheduleDay(BaseModel):
-    id_place: str
+    id_business: str
     day_number: int
     is_open: bool
     open_time: Optional[datetime] = None
@@ -22,5 +22,5 @@ class ScheduleDay(BaseModel):
     today_open: Optional[bool] = None
 
 
-class PlaceSchedule(BaseModel):
+class BusinessSchedule(BaseModel):
     days: list[Schedule]

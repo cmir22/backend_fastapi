@@ -21,4 +21,4 @@ class Location(BaseModel):
 class LocationSelect(BaseModel):
     # _id = False
     last_update = False
-    id_place = False
+    id_business = False

@@ -7,7 +7,7 @@ from database.db import database
 from helpers.exeptions import error_insert
 from helpers.responses import success_message, format_respose
 from database.models.admin.locations.locations_model import Location
-from security.headers import header_id_place
+from security.headers import header_id_business
 
 # Router
 router = APIRouter(prefix="/locations", tags=["Locations"])
@@ -17,13 +17,13 @@ LOCATIONS_COLLECTION = database[locations_collection]
 
 
 @router.post("/create")
-async def create_place_location(place: Location, Authorization=Header(None)):
-    response: str
-    place = dict(place)
+async def create_business_location(business: Location, Authorization=Header(None)):
+    response = {}
+    business = dict(business)
 
     try:
-        place["id_place"] = header_id_place(Authorization)
-        document = LOCATIONS_COLLECTION.insert_one(place)
+        business["id_business"] = header_id_business(Authorization)
+        document = LOCATIONS_COLLECTION.insert_one(business)
         response = success_message(document.inserted_id)
 
     except Exception as exs:
@@ -32,12 +32,13 @@ async def create_place_location(place: Location, Authorization=Header(None)):
 
 
 @router.get("/get")
-async def get_place_location(Authorization=Header(None)):
+async def get_business_location(Authorization=Header(None)):
     response = {}
 
     try:
-        SELECT = {"_id": False, "last_update": False, "id_place": False}
-        WHERE = {"id_place": header_id_place(Authorization, "id_place")}
+        SELECT = {"_id": False, "last_update": False, "id_business": False}
+        WHERE = {"id_business": header_id_business(
+            Authorization, "id_business")}
 
         document = LOCATIONS_COLLECTION.find_one(WHERE, SELECT)
 
@@ -49,15 +50,16 @@ async def get_place_location(Authorization=Header(None)):
 
 
 @router.put("/update")
-async def get_place_location(location: Location, Authorization=Header(None)):
+async def get_business_location(location: Location, Authorization=Header(None)):
     response = {}
 
     try:
-        WHERE = {"id_place": header_id_place(Authorization, "id_place")}
+        WHERE = {"id_business": header_id_business(
+            Authorization, "id_business")}
         UPDATE = {"$set": dict(location)}
 
         LOCATIONS_COLLECTION.find_one_and_update(WHERE, UPDATE)
-        response = success_message(WHERE["id_place"])
+        response = success_message(WHERE["id_business"])
 
     except Exception as exs:
         raise error_insert(exs)

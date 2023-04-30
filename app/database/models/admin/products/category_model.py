@@ -21,7 +21,7 @@ class SelectCategory(BaseModel):
     is_active = False
     last_update = False
     created_date = False
-    id_place = False
+    id_business = False
 
 
 # Update vertion

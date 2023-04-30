@@ -7,7 +7,7 @@ from database.collections import categories_collection
 from database.db import database
 from helpers.exeptions import error_insert
 from database.models.admin.products.category_model import Category, SelectCategory, UpdateCategory
-from security.headers import header_id_place
+from security.headers import header_id_business
 from helpers.responses import success_message, format_respose
 from bson.objectid import ObjectId
 
@@ -24,7 +24,7 @@ async def create_category(category: Category, Authorization=Header(None)):
     category = dict(category)
 
     try:
-        category["id_place"] = header_id_place(Authorization)
+        category["id_business"] = header_id_business(Authorization)
         document = CATEGORIES_COLLECTION.insert_one(category)
 
         UPDATE = {"$set": {"id_category": str(document.inserted_id)}}
@@ -39,14 +39,14 @@ async def create_category(category: Category, Authorization=Header(None)):
     return response
 
 
-@router.get("/get/{id_place}")
-async def get_categories(id_place: str):
+@router.get("/get/{id_business}")
+async def get_categories(id_business: str):
     response = {}
 
     try:
         SELECT: SelectCategory = dict(SelectCategory())
         SELECT["_id"] = False
-        WHERE = {"id_place": id_place}
+        WHERE = {"id_business": id_business}
 
         document = CATEGORIES_COLLECTION.find(WHERE, SELECT)
         document.sort("name", pymongo.ASCENDING)

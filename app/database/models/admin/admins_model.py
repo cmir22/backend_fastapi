@@ -20,7 +20,7 @@ class Admin(BaseModel):
 # Short vertion
 class AdminShort(BaseModel):
     id: str
-    id_place: str
+    id_business: str
     name: str
     email: EmailStr
 
@@ -34,7 +34,7 @@ class AdminLogin(BaseModel):
 # Short vertion
 class AdminLogged(BaseModel):
     _id: str
-    id_place: str
+    id_business: str
     email: EmailStr
     name: str
     phone: str
@@ -43,7 +43,7 @@ class AdminLogged(BaseModel):
 # Admin details
 class AdminDetails(BaseModel):
     _id: ObjectId
-    id_place: str
+    id_business: str
     email: EmailStr
     name: str
     is_active: bool
@@ -53,7 +53,7 @@ class AdminDetails(BaseModel):
 # Set select
 class SelectAdminDetails(BaseModel):
     _id = Field(alias='_id', default=False)
-    id_place = False
+    id_business = False
     join_date = False
     password = False
     is_active = False

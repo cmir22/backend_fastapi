@@ -1,5 +1,5 @@
 
-### User model ###
+### Business model ###
 
 from pydantic import BaseModel, Field, EmailStr
 # from typing import Optional
@@ -8,7 +8,7 @@ from datetime import datetime
 
 
 # Long vertion
-class Place(BaseModel):
+class Business(BaseModel):
     _id: ObjectId = Field(alias='_id')
     name: str
     phone: str
@@ -19,7 +19,7 @@ class Place(BaseModel):
     last_edit_date = datetime.now().today()
 
 
-class UpdatePlace(BaseModel):
+class UpdateBusiness(BaseModel):
     name: str
     phone: str
     email: EmailStr
