@@ -25,7 +25,9 @@ async def create_product(product: Product, Authorization=Header(None)):
 
     try:
         id_business = header_id_business(Authorization)
-        upload_image_s3(product.image, id_business, "products")
+        UPLOADED = upload_image_s3(product.image, id_business, "products")
+
+        print(UPLOADED)
 
     except Exception as exs:
         raise error_insert(exs)
