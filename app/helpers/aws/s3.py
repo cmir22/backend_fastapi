@@ -51,10 +51,10 @@ def upload_image_s3(image_base64: str, id_business: str, section: str):
                                       ContentType=f'image/{IMAGE_FORMAT}',
                                       ACL=ACL)
 
-        return validate_reponse(STATUS, NEW_URL)
+        return validate_s3_reponse(STATUS, NEW_URL)
 
     except Exception as exs:
-        print(exs)
+        validate_s3_reponse(STATUS, NEW_URL, exs)
 
 
 def generate_presigned_url(S3_CLIENT, CUSTOM_KEY_PATH):
@@ -70,18 +70,21 @@ def generate_presigned_url(S3_CLIENT, CUSTOM_KEY_PATH):
     return NEW_URL
 
 
-def validate_reponse(STATUS, NEW_URL):
+def validate_s3_reponse(STATUS, NEW_URL, exs=None):
     response = {}
     STATUS = STATUS["ResponseMetadata"]["HTTPStatusCode"]
 
     if STATUS == 200:
         response = {
             "success": True,
-            "inserted_url": NEW_URL
+            "loaded": True,
+            "new_url": NEW_URL
         }
     else:
         response = {
             "success": False,
+            "loaded": True,
+            "error": exs
         }
 
     return response
