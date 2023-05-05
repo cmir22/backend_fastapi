@@ -35,7 +35,7 @@ async def create_product(product: Product, Authorization=Header(None)):
         # Insert to database
         document = PRODUCTS_COLLECTION.insert_one(product)
 
-        return product
+        print(document.inserted_id)
 
     except Exception as exs:
         raise error_insert(exs)
