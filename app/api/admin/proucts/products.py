@@ -33,9 +33,9 @@ async def create_product(product: Product, Authorization=Header(None)):
         product["image_key"] = NEW_URL["image_key"]
 
         # Insert to database
-        document = PRODUCTS_COLLECTION.insert_one(product)
+        DOCUMENT = PRODUCTS_COLLECTION.insert_one(product)
 
-        print(document.inserted_id)
+        print(DOCUMENT.inserted_id)
 
     except Exception as exs:
         raise error_insert(exs)
